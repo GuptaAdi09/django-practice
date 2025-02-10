@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Search</title>
+    
+    <style>
+        #suggestions {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    
+    <input type="text" id="searchBox" placeholder="Search for candidate...">
+    <div id="suggestions"></div>
+    <div id="detailsBox"></div>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let searchBox = document.getElementById("searchBox");
+        let suggestions = document.getElementById("suggestions");
+        let detailsBox = document.getElementById("detailsBox");
+    
+        searchBox.addEventListener("input", function () {
+            let query = searchBox.value;
+            if (query.length > 0) {
+                fetch(`/politics/search_candidate/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestions.innerHTML = "";
+                        data.forEach(item => {
+                            let div = document.createElement("div");
+                            div.className = "suggestion-item";
+                            div.textContent = item.name;
+
+                            div.addEventListener("click", function () {
+                                searchBox.value = item.name;
+                                
+                                suggestions.innerHTML = "";
+                                
+                                detailsBox.innerHTML = `
+                                    <h3>Candidate Details</h3>
+                                    <p><strong>Name:</strong> ${item.name}</p>
+                                    <p><strong>Age:</strong> ${item.age}</p>
+                                    <p><strong>Party_name:</strong> ${item.party_name}</p>
+                                    <p><strong>Total Vote:</strong> ${item.votes}</p>
+                                    <p><strong>Assembly Name:</strong> ${item.assembly_name}</p>
+
+                                `;
+
+
+
+
+                            });
+                            suggestions.appendChild(div);
+                            
+                        });
+                    })
+                    .catch(error => console.error("Error:", error));
+            } else {
+                suggestions.innerHTML = "";
+                detailsBox.innerHTML = "";
+            }
+        });
+    });
+</script>
+</html>

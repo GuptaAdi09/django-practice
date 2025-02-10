@@ -1,0 +1,26 @@
+
+<h2>{{ party.party_name }}</h2>
+
+<table style="margin-left: 10px;">
+    <tr>
+      <th>Candidate</th>
+      <th> Constitution </th>
+      <th>District</th>
+      
+    </tr>
+   {% for candidate in candidates  %}
+   
+    <tr>
+        <td style="padding: 5px;">{{ candidate.candidate_name }}</td>
+        <td style="padding: 5px;"><a href="{% url  "politics:vote" PartyName=party.party_name  candidate_name=candidate.candidate_name %}"> {{ candidate.from_which_assembly }} </a></td>
+        <td style="padding: 5px;">{{ candidate.from_which_assembly.distric }}</td>
+        
+        
+    </tr>
+    {% endfor %}
+    
+    
+</table>
+
+
+

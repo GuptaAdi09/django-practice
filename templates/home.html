@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} Home page{% endblock title %}
+    </title>
+    
+</head>
+<body>
+    {% block content %}
+        
+        <p class="text-center text-xl font-bold">{{ name }}</p>
+
+        {% comment %} <span class="response" style="color:white;">
+            <a href="{% url "HTTPResponse" %}">GO to see http response </a>
+            
+        </span>
+        <br>
+        <span class="response">
+            <a href="{% url "HTMLResponse" %}">GO to see html response </a>
+            
+        </span>  {% endcomment %}
+    {% endblock content %}
+        
+        
+    
+
+    
+    
+</body>
+</html>

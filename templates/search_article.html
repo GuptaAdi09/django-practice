@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+        search article
+    {% endblock title %}
+
+</head>
+<body>
+    {% block content %}
+        {% if error %}
+        
+        <div class="mt-5 ml-[500px] max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-red-900 ">{{ error }}</h5>
+        </div>
+        {% else %}
+            <h5 class="mt-20 ml-[500px] mb-2 text-2xl font-bold tracking-tight text-black-900 dark:text-balck">Articel with id {{ id }}</h5>
+            <div class="mt-5 ml-[500px] max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ name }}</h5>
+                
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ discription }}</p>
+                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Read more
+                    
+                </a>
+            </div> 
+            
+        {% endif %}
+       
+
+    {% endblock content %}
+    
+</body>
+</html>

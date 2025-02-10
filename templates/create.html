@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+
+    {% if not is_created %}
+
+        <form action="." method="POST">
+            {% csrf_token %}
+            <ul style="margin-left:50px; margin-top:20px; ">
+                <li style="margin-top:5px;"><input type="text" name="name" placeholder='Articel Name'></li>
+                <li style="margin-top:5px;"><input type="text" name="author" placeholder='Articel Author'></li>
+                <li style="margin-top:5px;"><textarea name="discription" placeholder="Articel discription" ></textarea></li>
+                <input type="submit" value='Create Articel' style="margin-top:5px;">
+            
+        </ul>
+
+        </form>
+
+    {% else %}
+        <div class="ml-[30%] mt-[5%] w-[350px] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ article_obj.name }}</h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ article_obj.discription }}</p>
+            <h3 class="mb-2 text-2xl font-bold tracking-tight dark:text-green-300">{{ article_obj.author }}</h3>
+        </div>
+        
+
+    {% endif %}
+{% endblock content %}
+

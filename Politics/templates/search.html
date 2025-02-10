@@ -1,0 +1,15 @@
+
+    {% for candidate in candidates  %}
+        
+        <fieldset>
+
+            <legend>
+                <h1>{{ candidate.candidate_name }}</h1>
+            </legend>
+            <strong>
+                {{ candidate.party_name }}
+            </strong>
+            <input type="submit" placeholder="Vote" name="voted">
+        </fieldset>
+        
+    {% endfor %}

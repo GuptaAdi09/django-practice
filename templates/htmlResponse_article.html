@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+        HTMLResponse Page
+    {% endblock title %}
+
+</head>
+
+<body >
+    
+    {% block logout %}
+        {% if user %}
+        <li>
+            <a href="{% url "logout_user" %}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</a>
+          </li>
+        {% endif %}
+    {% endblock logout %}
+
+    {% block content %}
+       
+                        
+        <div class="mt-10 flex flex-wrap gap-6 justify-center">
+            {% for article in all_article %}
+                
+                {% if article.id == 2 %}
+                    <div class="bg-green-500 p-6 rounded-lg text-white w-[350px]">
+                        <h3>U are inside the article app, and u are hitting this request for this article using HTMLResponse => {{ article.name }} by {{ article.author }}</h3>
+                        <h2>Short Description about article</h2>
+                        <p>{{ article.discription }}</p>
+                        {% comment %} <a href="{% url 'description_view' id=article.id %}" class="text-white underline">Go to see full description</a> {% endcomment %}
+                    </div>
+                
+                {% else %}
+                    <div class="w-[350px] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ article.name }}</h5>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ article.discription }}</p>
+                        <h3 class="mb-2 text-2xl font-bold tracking-tight dark:text-green-300">{{ article.author }}</h3>
+                        {% comment %} <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Read more
+                        </a> {% endcomment %}
+                    </div>
+                
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+        
+    {% endblock content %}
+
+    
+                
+    
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log(document.getElementById("logout"));
+    });
+    window.onload = function() {
+        let html_response = document.getElementById('HTMLResponse');
+        console.log("Checking element:", html_response); // Debug
+
+        if (html_response) {
+            console.log("Element found! Updating...");
+            html_response.innerHTML = "Create Article"; // Update text
+            html_response.href = "{% url 'create_articel' %}"; // Update href
+        } else {
+            console.error("Element with ID 'HTMLResponse' not found!");
+        }
+    };
+</script>
+</html>

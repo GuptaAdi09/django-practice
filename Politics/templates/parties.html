@@ -1,0 +1,45 @@
+{% load static tailwind_tags %}
+
+{% load static %}
+<body class="bg-blue-900">
+    
+
+<form action="{% url "politics:searched"  %}" method="POST">
+    {% csrf_token %}
+    <input style="height:30px; width:250px; margin-left:30px" name="data" type="text" placeholder="Search your contitution">
+    <input type="submit" name="" id="" style="height:30px; width:100px;">
+</form>
+{% if messages %}
+    {% for message in messages %}
+            <div class="alert alert-danger">
+                <h1>{{ message }}</h1>
+            </div>
+    {% endfor %}
+{% endif %}
+
+<table style="margin-left: 10px;">
+    <tr>
+      <th>Party_Name</th>
+      <th>Current Leader</th>
+      <th>Establish_In</th>
+    </tr>
+   {% for party in query_set  %}
+   
+    <tr>
+        <td style="padding: 5px;">
+            <a href="{% url "politics:parties_candidate" party.id %}">
+                {{ party.party_name}}
+            </a></td>
+        <td style="padding: 5px;">{{ party.current_leader }}</td>
+        <td style="padding: 5px;">{{ party.establish_in }}</td>
+    </tr>
+    {% endfor %}
+    
+    
+</table>
+<h2>Click on the party name to see their candidate in different District</h2>
+
+
+
+    
+</body>

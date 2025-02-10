@@ -1,0 +1,12 @@
+<form action="{% url "politics:result" PartyName=PartyName candidate_name=candidate_name %}">
+    <fieldset>
+        <legend>
+            <h1>{{ PartyName }}</h1>
+        </legend>
+        <strong>
+            <h3>You are voting for <h1 style="color:green">{{ candidate_name}}</h1> from {{ obj.from_which_assembly }} constitution</h3>
+        </strong>
+        
+    </fieldset>
+    <input type="submit"  placeholder="Vote">
+</form>

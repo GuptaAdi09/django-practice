@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if error %}
+    <div style="margin-left:50px; margin-top:20px;">
+        <h1 style="color:red">{{ error }}</h1>
+    </div>
+{% endif %}
+
+<form action="." method="POST">
+    {% csrf_token %}
+    <ul style="margin-left:50px; margin-top:20px;">
+        <li style="margin-top:5px;">
+            <input type="text" name="user_name" placeholder='User Name'>
+        </li>
+        <li style="margin-top:5px;">
+            <input type="password" name="password" placeholder='Password'>
+        </li>
+        <input type="submit" value='Login' style="margin-top:5px;">
+    </ul>
+</form>
+
+{% endblock content %}
+
+
+{% comment %} AF0411570 {% endcomment %}
