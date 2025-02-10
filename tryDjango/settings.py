@@ -15,11 +15,8 @@ from pathlib import Path
 import dj_database_url  
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from .env file
+load_dotenv()  
 
-# print("DEBUG:", os.getenv("DEBUG"))
-# print("SECRET_KEY:", os.getenv("DJANGO_SECRET_KEY"))
-# print("ALLOWED_HOSTS:", os.getenv("DJANGO_ALLOWED_HOST"))
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,11 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOST")
-# if DEBUG:
-#     ALLOWED_HOSTS += [os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")]
+
+ALLOWED_HOSTS = ['.railway.app','localhost']
+
 
 TAILWIND_APP_NAME = 'theme' 
 INTERNAL_IPS =['127.0.0.1']
@@ -102,9 +99,8 @@ WSGI_APPLICATION = 'tryDjango.wsgi.application'
 # }
 
 DATABASES = {
-    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"), conn_max_age=600)
 }
-
 # POSTGRES_DB = os.getenv("POSTGRES_DB") 
 # POSTGRES_USER = os.getenv("POSTGRES_USER")
 # POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
