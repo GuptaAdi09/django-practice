@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-from datetime import timezone
 
+import dj_database_url  
 from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env file
@@ -35,7 +35,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  True #os.getenv('DEBUG')
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")
+ALLOWED_HOSTS = ["http://4hb5e6u6.up.railway.app","localhost"] #os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")
 # if DEBUG:
 #     ALLOWED_HOSTS += [os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")]
 
@@ -101,34 +101,42 @@ WSGI_APPLICATION = 'tryDjango.wsgi.application'
 #     }
 # }
 
-POSTGRES_DB = os.getenv("POSTGRES_DB") 
-POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-
-POSTGRES_HOST = os.getenv("POSTGRES_HOST")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT")
-
-POSTGRES_READY = all([POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT])
-
-if POSTGRES_READY:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            'NAME': POSTGRES_DB,
-            'USER': POSTGRES_USER,
-            'PASSWORD': POSTGRES_PASSWORD,
-            'HOST': POSTGRES_HOST,
-            'PORT': POSTGRES_PORT,
-        }
-    }
-else:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+DATABASES = {
+    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
 
+# POSTGRES_DB = os.getenv("POSTGRES_DB") 
+# POSTGRES_USER = os.getenv("POSTGRES_USER")
+# POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+
+# POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+# POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+
+# POSTGRES_READY = all([POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT])
+
+# if POSTGRES_READY:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql",
+#             'NAME': POSTGRES_DB,
+#             'USER': POSTGRES_USER,
+#             'PASSWORD': POSTGRES_PASSWORD,
+#             'HOST': POSTGRES_HOST,
+#             'PORT': POSTGRES_PORT,
+#         }
+#     }
+# else:
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+ENVIRONMENT = os.getenv('ENVIRONMENT')
+
+POSTGTRES_LOCALLY = False
+if ENVIRONMENT == "production" or POSTGTRES_LOCALLY == True:
+    DATABASES['default'] = os.getenv('DATABASE_URL')
 
 
 # Password validation
