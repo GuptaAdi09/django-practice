@@ -33,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =  True #os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ["http://4hb5e6u6.up.railway.app","localhost"] #os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOST")
 # if DEBUG:
 #     ALLOWED_HOSTS += [os.getenv("DJANGO_ALLOWED_HOST", "127.0.0.1").split(",")]
 
@@ -132,11 +132,7 @@ DATABASES = {
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-ENVIRONMENT = os.getenv('ENVIRONMENT')
 
-POSTGTRES_LOCALLY = False
-if ENVIRONMENT == "production" or POSTGTRES_LOCALLY == True:
-    DATABASES['default'] = os.getenv('DATABASE_URL')
 
 
 # Password validation
