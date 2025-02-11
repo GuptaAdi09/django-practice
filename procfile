@@ -1,1 +1,1 @@
-web: gunicorn cfe-django32.wsgi --bind 0.0.0.0:$PORT
+web: gunicorn tryDjango.wsgi --bind 0.0.0.0:$PORT
