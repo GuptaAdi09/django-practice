@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 import dj_database_url  
@@ -42,7 +43,10 @@ ASGI_APPLICATION = "tryDjango.asgi.application"
 
 TAILWIND_APP_NAME = 'theme' 
 INTERNAL_IPS =['127.0.0.1']
-NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
+if sys.platform == "win32":
+    NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"  # Windows path
+else:
+    NPM_BIN_PATH = "/usr/bin/npm"  # Linux path for Render
 LOGIN_URL ="/login/"
 
 # Application definition
