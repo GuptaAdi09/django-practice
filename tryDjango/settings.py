@@ -35,6 +35,10 @@ DEBUG = DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOST').split(",")
 
+WSGI_APPLICATION = "tryDjango.wsgi.application"
+ASGI_APPLICATION = "tryDjango.asgi.application"
+
+
 
 TAILWIND_APP_NAME = 'theme' 
 INTERNAL_IPS =['127.0.0.1']
