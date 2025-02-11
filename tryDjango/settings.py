@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 
-ALLOWED_HOSTS = ['.railway.app','localhost']
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOST').split(",")
 
 
 TAILWIND_APP_NAME = 'theme' 
@@ -91,16 +91,18 @@ WSGI_APPLICATION = 'tryDjango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"), conn_max_age=600)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+ENVIRONMENT = os.getenv("ENVIRONMENT")
+PRODUCTION = True
+if PRODUCTION == True or ENVIRONMENT == "production":
+    DATABASES = {
+        "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    }
 # POSTGRES_DB = os.getenv("POSTGRES_DB") 
 # POSTGRES_USER = os.getenv("POSTGRES_USER")
 # POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
