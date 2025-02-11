@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOST').split(",")
+ALLOWED_HOSTS = [ "*" ]#os.getenv('DJANGO_ALLOWED_HOST').split(",")
 
 WSGI_APPLICATION = "tryDjango.wsgi.application"
 ASGI_APPLICATION = "tryDjango.asgi.application"
