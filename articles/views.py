@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
 from .models import Articles
-from random import randint
+import random 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegistrationForm
@@ -40,20 +40,20 @@ def article_with_HTTpResponse(request):
 def article_with_htmlResponse(request):
     # print("HTML function is call")
     # picking random articles
-    context2 = {}
+    context2 = {"All_article":Articles.objects.all()}
     if request.user.is_authenticated:
         context2["user"] = request.user
-    random_id = randint(1,3)
-    random_article = Articles.objects.get(id=random_id)
-    
-    context = {
-        "name" : random_article.name,
-        "author" : random_article.author,
-        "disc" : random_article.discription
-    }
-    # picking all article 
-    context2["all_article"] = Articles.objects.all()
-    return render(request,'htmlResponse_article.html',context2)
+
+    articles = list(Articles.objects.all())  
+    if articles:  # Ensure articles exist
+        random_article = random.choice(articles)
+        context2.update({
+            "name": random_article.name,
+            "author": random_article.author,
+            "disc": random_article.discription
+        })
+
+    return render(request, 'htmlResponse_article.html', context2)
 
 def description_view(request,*args, **kwargs):
     
