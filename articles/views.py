@@ -40,20 +40,10 @@ def article_with_HTTpResponse(request):
 def article_with_htmlResponse(request):
     # print("HTML function is call")
     # picking random articles
-    context2 = {"All_article":Articles.objects.all()}
-    if request.user.is_authenticated:
-        context2["user"] = request.user
+    obj = Articles.objects.all()
+    
+    return render(request, 'htmlResponse_article.html', context={"all_article":obj})
 
-    articles = list(Articles.objects.all())  
-    if articles:  # Ensure articles exist
-        random_article = random.choice(articles)
-        context2.update({
-            "name": random_article.name,
-            "author": random_article.author,
-            "disc": random_article.discription
-        })
-
-    return render(request, 'htmlResponse_article.html', context2)
 
 def description_view(request,*args, **kwargs):
     
