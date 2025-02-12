@@ -102,7 +102,20 @@ WSGI_APPLICATION = 'tryDjango.wsgi.application'
 
 
 # Database
+
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+#DEFAULT DATABASE 
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+
+# -------------------------------------------
+# render postgres database
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:
@@ -117,6 +130,9 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+# ---------------------------------------
+# local machine postgres database
 # POSTGRES_DB = os.getenv("POSTGRES_DB") 
 # POSTGRES_USER = os.getenv("POSTGRES_USER")
 # POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
