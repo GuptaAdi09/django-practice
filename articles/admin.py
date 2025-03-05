@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Articles
 
 class ArticelsModel(admin.ModelAdmin):
-    list_display = ('id','name','slug','author')
+    list_display = ('id','name','author')
     search_fields = ('name',)
     # list_filter = ('name',)
 
