@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG =  True #DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 
-ALLOWED_HOSTS = [ "*" ]#os.getenv('DJANGO_ALLOWED_HOST').split(",")
+ALLOWED_HOSTS = [ "*" ] #os.getenv('DJANGO_ALLOWED_HOST').split(",")
 
 WSGI_APPLICATION = "tryDjango.wsgi.application"
 ASGI_APPLICATION = "tryDjango.asgi.application"
@@ -42,6 +42,7 @@ ASGI_APPLICATION = "tryDjango.asgi.application"
 
 
 TAILWIND_APP_NAME = 'theme' 
+
 INTERNAL_IPS =['127.0.0.1']
 if sys.platform == "win32":
     NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"  # Windows path

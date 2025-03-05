@@ -27,12 +27,13 @@ urlpatterns = [
     path('',article_with_htmlResponse,name='HTMLResponse'),
     path('login/',login_user,name="login_user"),
     path('logout/',logout_user,name="logout_user"),
-    path('search_article/',search_article,name='searching_for'),
+    path('search_article/',search_article,name='search_article'),
     
     path('HttpResponseArticle/',article_with_HTTpResponse,name='HTTPResponse'),
     path('htmlResponseArticle/',article_with_htmlResponse,name='HTMLResponse'),
-    path('description/<int:id>/',description_view,name='description_view'),
-    path('htmlResponseArticle/create/',create_articel,name='create_articel'),
+    # path('description/<int:id>/',description_view,name='description_view'),
+    path('article/create/',create_articel,name='create_articel'),
+    
 
     path('polls/',include('polls.urls')),
     path('politics/',include('Politics.urls')),

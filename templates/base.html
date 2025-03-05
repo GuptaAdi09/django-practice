@@ -23,17 +23,21 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-                <form action="{% url "searching_for" %}" method="GET">
-                  <div class="grid gap-6 mb-6 md:grid-cols-2">
-                    <div class="flex flex-row-reverse items-center gap-2">  
-                        <input name="query" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search article" required />
-                        
-                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">
-                            Search
-                        </button>
+                
+                  <input type="text" id="searchBox" placeholder="Search for article...">
+                  
+                  {% comment %} <form action="{% url "searching_for" %}" method="GET">
+                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                      <div class="flex flex-row-reverse items-center gap-2">  
+                          <input name="query" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search article" required />
+                          
+                          <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">
+                              Search
+                          </button>
+                      </div>
                     </div>
-                </div>
-                </form>
+                  </form>  {% endcomment %}
+                
             </li>
           <li>
             <a href="{% url "HTMLResponse" %}" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
@@ -59,7 +63,8 @@
       </div>
     </div>
   </nav>
-  <div id="results"> </div>
+  <div id="suggestions"></div>
+  <div id="detailsBox"></div>
   
     {% block content %}
      inside the base page 
@@ -72,6 +77,57 @@
 
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+      let searchBox = document.getElementById("searchBox");
+      let suggestions = document.getElementById("suggestions");
+      let detailsBox = document.getElementById("detailsBox");
+
+      searchBox.addEventListener("input", function () {
+          let query = searchBox.value;
+          console.log(query)
+          if (query.length > 0) {
+              fetch(`search_article/?q=${query}`)
+                  .then(response => response.json())
+                  .then(data => {
+                      suggestions.innerHTML = "";
+                      
+                      data.forEach(item => {
+                          let div = document.createElement("div");
+                          div.className = "suggestion-item";
+                          div.textContent = item.name;
+                          
+
+                          div.addEventListener("click", function () {
+                              searchBox.value = item.name;
+                              
+                              suggestions.innerHTML = "";
+                              
+                              detailsBox.innerHTML = `
+                                  <h3>Article Details</h3>
+                                  <p><strong>Name:</strong> ${item.name}</p>
+                                  <p><strong>Author:</strong> ${item.author}</p>
+                                  {% comment %} <p><strong>Party_name:</strong> ${item.party_name}</p>
+                                  <p><strong>Total Vote:</strong> ${item.votes}</p> {% endcomment %}
+                                  <p><strong>Discription:</strong> ${item.discription}</p>
+
+                              `;
+
+
+
+
+                          });
+                          suggestions.appendChild(div);
+                          
+                      });
+                  })
+                  .catch(error => console.error("Error:", error));
+          } else {
+              suggestions.innerHTML = "";
+              detailsBox.innerHTML = "";
+          }
+      });
+  });
     
 
     

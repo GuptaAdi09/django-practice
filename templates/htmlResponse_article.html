@@ -26,15 +26,7 @@
         <div class="mt-10 flex flex-wrap gap-6 justify-center">
             {% for article in all_article %}
                 
-                {% if article.id == 2 %}
-                    <div class="bg-green-500 p-6 rounded-lg text-white w-[350px]">
-                        <h3>U are inside the article app, and u are hitting this request for this article using HTMLResponse => {{ article.name }} by {{ article.author }}</h3>
-                        <h2>Short Description about article</h2>
-                        <p>{{ article.discription }}</p>
-                        {% comment %} <a href="{% url 'description_view' id=article.id %}" class="text-white underline">Go to see full description</a> {% endcomment %}
-                    </div>
                 
-                {% else %}
                     <div class="w-[350px] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ article.name }}</h5>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ article.discription }}</p>
@@ -44,7 +36,7 @@
                         </a> {% endcomment %}
                     </div>
                 
-                {% endif %}
+                
         
             {% endfor %}
         </div>

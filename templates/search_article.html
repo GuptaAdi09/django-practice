@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% comment %} {% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,16 +17,21 @@
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-red-900 ">{{ error }}</h5>
         </div>
         {% else %}
-            <h5 class="mt-20 ml-[500px] mb-2 text-2xl font-bold tracking-tight text-black-900 dark:text-balck">Articel with id {{ id }}</h5>
-            <div class="mt-5 ml-[500px] max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ name }}</h5>
-                
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ discription }}</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
+            
+            <div class="mt-10 flex flex-wrap gap-6 justify-center">
+
+                {% for obj in lookup %}
                     
-                </a>
-            </div> 
+                        <h3>Article id:{{ obj.id }}</h3>
+                        <div class="w-[350px] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ obj.name }}</h5>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ obj.discription }}</p>
+                            <h3 class="mb-2 text-2xl font-bold tracking-tight dark:text-green-300">{{ obj.author }}</h3>
+                            
+                        </div>
+                    
+                {% endfor %}
+            </div>
             
         {% endif %}
        
@@ -34,4 +39,96 @@
     {% endblock content %}
     
 </body>
+</html> {% endcomment %}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Search</title>
+    
+    <style>
+        #suggestions {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    {% block search_bar %}
+        {% comment %} <input type="text" id="searchBox" placeholder="Search for article...."> {% endcomment %}
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+            <div class="flex flex-row-reverse items-center gap-2">  
+                <input  type="text" id="searchBox" placeholder="Search for article...." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search article" required />
+                
+            </div>
+          </div>
+        <div id="suggestions"></div>
+        <div id="detailsBox"></div>
+    {% endblock search_bar %}
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let searchBox = document.getElementById("searchBox");
+        let suggestions = document.getElementById("suggestions");
+        let detailsBox = document.getElementById("detailsBox");
+    
+        searchBox.addEventListener("input", function () {
+            let query = searchBox.value;
+            if (query.length > 0) {
+                fetch(`/politics/search_candidate/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestions.innerHTML = "";
+                        data.forEach(item => {
+                            let div = document.createElement("div");
+                            div.className = "suggestion-item";
+                            div.textContent = item.name;
+
+                            div.addEventListener("click", function () {
+                                searchBox.value = item.name;
+                                
+                                suggestions.innerHTML = "";
+                                
+                                detailsBox.innerHTML = `
+                                    <h3>Candidate Details</h3>
+                                    <p><strong>Name:</strong> ${item.name}</p>
+                                    <p><strong>Age:</strong> ${item.age}</p>
+                                    <p><strong>Party_name:</strong> ${item.party_name}</p>
+                                    <p><strong>Total Vote:</strong> ${item.votes}</p>
+                                    <p><strong>Assembly Name:</strong> ${item.assembly_name}</p>
+
+                                `;
+
+
+
+
+                            });
+                            suggestions.appendChild(div);
+                            
+                        });
+                    })
+                    .catch(error => console.error("Error:", error));
+            } else {
+                suggestions.innerHTML = "";
+                detailsBox.innerHTML = "";
+            }
+        });
+    });
+</script>
 </html>

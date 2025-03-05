@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
 from .models import Articles
-import random 
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegistrationForm
@@ -9,6 +9,8 @@ from .forms import UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate,login,logout
+
+
 
 # Create your views here.
 def article_with_HTTpResponse(request):
@@ -38,39 +40,32 @@ def article_with_HTTpResponse(request):
 
 
 def article_with_htmlResponse(request):
-    # print("HTML function is call")
-    # picking random articles
-    obj = Articles.objects.all()
     
+    obj = Articles.objects.all()
     return render(request, 'htmlResponse_article.html', context={"all_article":obj})
 
 
-def description_view(request,*args, **kwargs):
+
+# def description_view(request,*args, **kwargs):
+
+#     print("Received ID:", kwargs.get('id'))
+#     get_object_or_404(Articles,pk=kwargs['id'])
+#     get_obj = Articles.objects.get(id=kwargs['id'])
     
-    get_object_or_404(Articles,pk=kwargs['id'])
-    get_obj = Articles.objects.get(id=kwargs['id'])
-    
-    return HttpResponse(f"<h1>{get_obj.discription}</h1>")
+#     return HttpResponse(f"<h1>{get_obj.discription}</h1>")
 
 def search_article(request):
-    # print(dir(request))
-    query = request.GET.get('query')
-    print(query)
-    
-    try:
-        obj = Articles.objects.get(id=int(query))
-        return render(request,'search_article.html',context={
-            "id":obj.id,
-            "name": obj.name,
-            "author": obj.author,
-            "discription": obj.discription
+    query = request.GET.get("q","")
+    if query:
 
-        })
-    except:
-        context = {
-            "error": "ARTICLE DOES NOT EXITS"
-        }
-        return render(request,'search_article.html',context)
+        article = Articles.objects.filter(name__icontains=query)[:10]
+    results = [{"id":a.id, 
+                "name":a.name,
+                "author": a.author,
+                "discription": a.discription,
+                
+                } for a in article]
+    return JsonResponse(results ,safe=False)
 
 
 @login_required
@@ -111,18 +106,18 @@ def login_user(request):
         return render(request,"login_user.html",{"error": "Invalid username or password"})
     return render(request,"login_user.html",{})
 
-def search_item(request):
-    if request.method == "GET":
-        query = request.GET.get("query","")
-        if query:
-            results = Articles.objects.filter(name__icontains=query)
-            data = [{
-                "id": item.id,
-                "name": item.name,
-                "discription": item.discription
-            } for item in results]
-            return JsonResponse({"success":True,"results":data})
-    return JsonResponse({"success":False, "result":[] })
+# def search_item(request):
+#     if request.method == "GET":
+#         query = request.GET.get("query","")
+#         if query:
+#             results = Articles.objects.filter(name__icontains=query)
+#             data = [{
+#                 "id": item.id,
+#                 "name": item.name,
+#                 "discription": item.discription
+#             } for item in results]
+#             return JsonResponse({"success":True,"results":data})
+#     return JsonResponse({"success":False, "result":[] })
 
 def register_user(request):
     if request.method == "POST":
