@@ -3,6 +3,12 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from django.contrib.auth import get_user_model
+
+
+
+def get_default_user():
+    return get_user_model().objects.first().id
 
 
 class Migration(migrations.Migration):
@@ -16,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='articles',
             name='user',
-            field=models.ForeignKey(default='UNKNOWN', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default=get_default_user,on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]
