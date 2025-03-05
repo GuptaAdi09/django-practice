@@ -1,3 +1,4 @@
+
 # Django Practice Project  
 
 This repository contains my **Django** practice code, covering various essential concepts to build dynamic web applications.  
@@ -13,4 +14,36 @@ This repository contains my **Django** practice code, covering various essential
 ## Installation & Setup  
 1. Clone the repository:  
    ```sh
-   git clone 
+   git clone
+https://github.com/GuptaAdi09/django-practice
+
+2. Create a virtual environment and activate it:
+
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+
+3. Install dependencies:
+
+pip install -r requirements.txt
+
+
+4. Run migrations:
+
+python manage.py migrate
+
+
+5. Start the development server:
+
+python manage.py runserver
+
+
+6. Open http://127.0.0.1:8000/ in your browser.
+
+
+
+Contributions
+
+Feel free to fork the repository, submit issues, or contribute improvements via pull requests.
+
+
