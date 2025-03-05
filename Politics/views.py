@@ -7,7 +7,7 @@ from django.db.models import Q
 
 # Create your views here.
 
-def login_view():
+def login_view(request):
     return HttpResponse("login required")
 
 
